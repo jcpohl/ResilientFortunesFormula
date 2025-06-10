@@ -1,0 +1,16 @@
+# ──────────────────────────────────────────────────────────────
+# GLOBAL DEFAULTS
+#   Every stage will read these; nothing else to set by hand.
+# ──────────────────────────────────────────────────────────────
+defaults:
+  INPUT_CSV:   "C:/Users/Jason Pohl/OneDrive - Bond University/PhD/rff/NEW_DATA.csv"
+  OUTPUT_ROOT: "C:/Users/Jason Pohl/OneDrive - Bond University/PhD/rff/outputs_rff"
+
+# ──────────────────────────────────────────────────────────────
+# EVENT‐SPECIFIC WINDOWS
+#   The orchestrator will loop over these keys in order.
+# ──────────────────────────────────────────────────────────────
+events:
+  2008:
+    WIN_START: 2004
+    WIN_END:   2012
