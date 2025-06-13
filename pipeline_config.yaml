@@ -5,12 +5,14 @@
 defaults:
   INPUT_CSV:   "C:/Users/Jason Pohl/OneDrive - Bond University/PhD/rff/NEW_DATA.csv"
   OUTPUT_ROOT: "C:/Users/Jason Pohl/OneDrive - Bond University/PhD/rff/outputs_rff"
+  # Uncomment and set STAGE1_CFG if required:
+  # STAGE1_CFG: "C:/Users/Jason Pohl/OneDrive - Bond University/PhD/rff/configs/stage1_config.yaml"
 
 # ──────────────────────────────────────────────────────────────
 # EVENT‐SPECIFIC WINDOWS
 #   The orchestrator will loop over these keys in order.
 # ──────────────────────────────────────────────────────────────
 events:
-  2008:
+  "2008":
     WIN_START: 2004
     WIN_END:   2012
