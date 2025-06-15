@@ -13,6 +13,10 @@ defaults:
 #   The orchestrator will loop over these keys in order.
 # ──────────────────────────────────────────────────────────────
 events:
+  "1998":
+    WIN_START: 1993
+    WIN_END:   2002
+
   "2000":
     WIN_START: 1995
     WIN_END:   2004
