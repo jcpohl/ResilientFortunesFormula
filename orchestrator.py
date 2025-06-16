@@ -7,48 +7,47 @@ Examples
 # single event
 python orchestrator.py --event 2008 
 
-# every event in pipeline_config.yaml
-python orchestrator.py --event ALL  
+# every event listed in pipeline_config.yaml
+python orchestrator.py --event ALL
 """
-
-## python orchestrator.py --event ALL  ** use this prompt to run - uses todays date as run tag
-
 from __future__ import annotations
 
 import argparse, datetime as _dt, os, subprocess, sys, yaml
 from pathlib import Path
-from typing import Dict
+from typing  import Dict
 
 # ───────────────────────── helpers ──────────────────────────
 def load_config(path: str = "pipeline_config.yaml") -> Dict:
     with open(path, encoding="utf-8") as fh:
         return yaml.safe_load(fh)
 
-
-def run_notebook(nb: str, env_vars: Dict[str, str]) -> None:
+def run_notebook(nb: str, env_vars: Dict[str, str], run_dir: Path) -> None:
     """
-    Execute *nb* with Papermill and write a **unique** output .ipynb
-    (adds SWAN_YEAR and RUN_TAG to the file-name so Windows never locks it).
+    Execute *nb* with Papermill and save the executed notebook inside
+    the stage-specific folder under *run_dir*.
 
-    • All env_vars are forwarded to the subprocess environment.
-    • Each var is also passed as `-p name value`, **except** RUN_TAG
-      (avoids double-dash bug in papermill).
+    • Adds SWAN_YEAR and RUN_TAG into the output-file name.
+    • Forwards every env var to the subprocess and as a Papermill
+      parameter, except RUN_TAG (avoids the double-dash bug).
     """
     os.environ.update(env_vars)
 
     swan = env_vars.get("SWAN_YEAR", "NA")
-    run  = env_vars.get("RUN_TAG", "")
-    out_ipynb = f"{Path(nb).stem}_{swan}_{run}_output.ipynb"
+    tag  = env_vars.get("RUN_TAG", "")
 
-    cmd = ["papermill", nb, out_ipynb]
+    stage_folder = run_dir / Path(nb).stem.lower()        # e.g. stage05a
+    stage_folder.mkdir(parents=True, exist_ok=True)
+
+    out_ipynb = stage_folder / f"{Path(nb).stem}_{swan}_{tag}_output.ipynb"
+
+    cmd = ["papermill", nb, str(out_ipynb)]
     for k, v in env_vars.items():
         if k == "RUN_TAG":
-            continue                     # skip RUN_TAG as papermill parameter
+            continue
         cmd.extend(["-p", k, str(v)])
 
     print("▶︎", *cmd)
     subprocess.run(cmd, check=True)
-
 
 # ───────────────────────── main ─────────────────────────────
 def main() -> None:
@@ -72,22 +71,12 @@ def main() -> None:
             sys.exit(f"[ERROR] event {args.event} not in pipeline_config.yaml")
         swan_years = [args.event]
 
-    stages = ["stage01.ipynb",
-                "stage02.ipynb",
-                "stage03.ipynb",
-                "stage04.ipynb",
-                "stage04B.ipynb",
-                "stage05a.ipynb",
-                "stage05b.ipynb",
-                "stage06.ipynb",
-                "stage07.ipynb",
-                "stage08.ipynb",
-                "stage09.ipynb",
-                "stage10.ipynb",
-                "stage11.ipynb",
-                "stage14.ipynb",
-                "stage17.ipynb",  
-                "stage25.ipynb"]
+    stages = ["stage01.ipynb", "stage02.ipynb", "stage03.ipynb",
+              "stage04A.ipynb", "stage04B.ipynb", "stage05a.ipynb",
+              "stage05b.ipynb", "stage06.ipynb", "stage07.ipynb",
+              "stage08.ipynb", "stage09.ipynb", "stage10.ipynb",
+              "stage11.ipynb", "stage14.ipynb", "stage17.ipynb",
+              "stage25.ipynb"]
 
     INPUT_CSV   = cfg["defaults"]["INPUT_CSV"]
     OUTPUT_ROOT = cfg["defaults"]["OUTPUT_ROOT"]
@@ -108,13 +97,13 @@ def main() -> None:
         if STAGE1_CFG:
             env_vars["STAGE1_CFG"] = STAGE1_CFG
 
-        # Pre-create the run folder so Stage-01 has somewhere to log
+        # pre-create run folder so Stage-01 can log
         run_dir = Path(OUTPUT_ROOT) / f"event={swan}" / args.run
         run_dir.mkdir(parents=True, exist_ok=True)
 
         for nb in stages:
             print(f"\n─── Executing {nb} for event {swan} (run {args.run}) ───")
-            run_notebook(nb, env_vars)
+            run_notebook(nb, env_vars, run_dir)
 
         print(f"✓ Event {swan} finished → {run_dir}")
 

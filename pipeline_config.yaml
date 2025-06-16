@@ -16,15 +16,12 @@ events:
   "1998":
     WIN_START: 1993
     WIN_END:   2002
-
   "2000":
     WIN_START: 1995
     WIN_END:   2004
-
   "2008":
     WIN_START: 2003
     WIN_END:   2012
-
   "2020":
     WIN_START: 2015
     WIN_END:   2024
