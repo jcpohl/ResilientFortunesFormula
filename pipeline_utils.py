@@ -1,93 +1,136 @@
+#!/usr/bin/env python
+"""
+Common helpers shared by all pipeline stages.
+v2.1 · 2025-06-18
+"""
+
 from __future__ import annotations
+import logging, os, re, sys
 from pathlib import Path
-import os, yaml, re
-from typing import Dict, List, Union, Optional
+from typing  import Dict, Optional
 
-# YYYY-MM-DD   or   YYYYMMDD
-_date_rx = re.compile(r"^\d{4}(?:-?\d{2}-?\d{2})$")
+import yaml
 
-# ────────────────────────────────────────────────────────────────
-#  CONFIG LOADER
-# ────────────────────────────────────────────────────────────────
-def load_cfg() -> Dict:
-    """Read `pipeline_config.yaml` (path overridable via $PIPELINE_CFG)."""
-    fp = Path(os.getenv("PIPELINE_CFG", "pipeline_config.yaml")).expanduser()
-    if not fp.is_file():
-        raise FileNotFoundError(f"pipeline_config.yaml not found at {fp}")
-    return yaml.safe_load(fp.read_text("utf-8")) or {}
+# ─────────────────────────────────────────────────────────────────────
+ROOT       = Path(__file__).resolve().parent
+CFG_PATH   = ROOT / "pipeline_config.yaml"
+_OUTPUT_CACHE: dict[str, Path] = {}          # memo: SWAN_YEAR → run dir
+
+logging.basicConfig(
+    level  = logging.INFO,
+    format = "%(asctime)s | %(levelname)-7s | [utils] %(message)s",
+    stream = sys.stdout,
+)
+ulog = logging.getLogger("pipeline_utils")
+
+# ═════════════════════════ 1 · CONFIG ════════════════════════════
+def load_cfg(force_reload: bool = False) -> Dict:
+    """
+    Return *pipeline_config.yaml* as a dict (cached).
+
+    Tolerates either ``output_root`` **or** the legacy upper-case
+    ``OUTPUT_ROOT`` in *defaults*.
+    """
+    if force_reload or not hasattr(load_cfg, "_cache"):
+        with open(CFG_PATH, encoding="utf-8") as fh:
+            cfg = yaml.safe_load(fh) or {}
+
+        # ----- normalise OUTPUT_ROOT key ----------------------------------
+        dflt = cfg.setdefault("defaults", {})
+        if "OUTPUT_ROOT" in dflt and "output_root" not in dflt:
+            dflt["output_root"] = dflt.pop("OUTPUT_ROOT")
+
+        # …or grab from environment if absent
+        dflt.setdefault("output_root", os.getenv("OUTPUT_ROOT", "outputs"))
+
+        load_cfg._cache = cfg
+
+    return load_cfg._cache
 
 
-# ────────────────────────────────────────────────────────────────
-#  RUN-FOLDER RESOLVER (robust to list-style `must_have`)
-# ────────────────────────────────────────────────────────────────
+# ═════════════════════════ 2 · RUN-DIR RESOLVER ═════════════════
 def resolve_run_dir(
-    swan_year: str | int | None = None,
-    must_have: Union[str, Path, List[Union[str, Path]], None] = None,
-    run_tag: str | None = None,
+    *,
+    swan_year: str,
+    run_tag  : Optional[str] = None,
+    must_have: str | None    = None,
+    create   : bool          = False,
 ) -> Path:
     """
-    Locate the run folder for *swan_year*.
+    Locate (or create) the output *run* directory for a given event year.
 
-    Priority order
-      1. $RUN_DIR                – explicit absolute path
-      2. run_tag argument
-      3. $RUN_TAG envvar
-      4. $RUN_DATE envvar (legacy)
-      5. most-recent folder that already contains *must_have*
-      6. newest dated folder in event=<YEAR>/
+    Folder layout
+    -------------
+        <output_root>/event=<YEAR>/<RUN_TAG>/
 
-    *must_have* may be:
-        • a single relative path  (str / Path)
-        • a list/tuple of paths   – *all* must exist inside the candidate
+    If *run_tag* is **None** → choose the **latest** directory whose name
+    matches ``r"run=\\d{3}"`` (run=001, run=002, …).
+
+    If *must_have* is supplied, ensure that path (supports simple glob
+    wild-cards) exists inside the resolved run-directory or raise
+    *FileNotFoundError*.
+
+    Returns
+    -------
+    **Path** pointing to the `<RUN_TAG>/` folder (never a stage sub-dir).
     """
-    cfg     = load_cfg()
-    events  = {str(k): v for k, v in cfg.get("events", {}).items()}
+    if swan_year in _OUTPUT_CACHE and run_tag is None and must_have is None:
+        return _OUTPUT_CACHE[swan_year]
 
-    sy = str(swan_year or os.getenv("SWAN_YEAR") or next(iter(events)))
-    if sy not in events:
-        raise KeyError(f"SWAN_YEAR={sy} not in YAML events")
+    cfg       = load_cfg()
+    root_path = Path(cfg["defaults"]["output_root"]).expanduser().resolve()
+    event_dir = root_path / f"event={swan_year}"
 
-    out_root  = Path(cfg["defaults"]["OUTPUT_ROOT"]).expanduser()
-    event_dir = out_root / f"event={sy}"
-    if not event_dir.is_dir():
-        raise FileNotFoundError(f"{event_dir} not found")
+    if not event_dir.exists():
+        if create:
+            event_dir.mkdir(parents=True, exist_ok=True)
+        else:
+            raise FileNotFoundError(f"{event_dir} not found")
 
-    # ── normalise must_have to list ──────────────────────────────
-    if must_have is None:
-        must_have = []
-    elif isinstance(must_have, (str, Path)):
-        must_have = [must_have]
+    # ―― choose / verify RUN_TAG ―――――――――――――――――――――――――――――――
+    if run_tag is None:
+        # newest run=NNN folder by mtime
+        candidates = sorted(
+            (p for p in event_dir.iterdir()
+             if p.is_dir() and re.fullmatch(r"run=\d{3}", p.name)),
+            key=lambda p: p.stat().st_mtime,
+            reverse=True,
+        )
+        if not candidates:
+            raise FileNotFoundError(f"No run directories under {event_dir}")
+        run_dir = candidates[0]
+        ulog.info("Auto-selected latest run directory: %s", run_dir.name)
+    else:
+        run_dir = event_dir / run_tag
+        if not run_dir.exists():
+            if create:
+                run_dir.mkdir(parents=True, exist_ok=True)
+                ulog.info("Created run directory %s", run_dir)
+            else:
+                raise FileNotFoundError(run_dir)
 
-    def _satisfies(folder: Path) -> bool:
-        """True iff *all* required artefacts exist inside *folder*."""
-        return all((folder / req).exists() for req in must_have)
+    # ―― must-have check (wild-cards allowed) ―――――――――――――――――――
+    if must_have:
+        # Convert e.g. ``stage03/*.csv`` to proper glob search
+        pattern_path = run_dir / must_have
+        hits = list(pattern_path.parent.glob(pattern_path.name))
+        if not hits:
+            raise FileNotFoundError(f"{must_have!s} not found in {run_dir}")
 
-    # 1 ─ explicit absolute path via $RUN_DIR
-    if os.getenv("RUN_DIR"):
-        cand = Path(os.getenv("RUN_DIR")).expanduser()
-        if _satisfies(cand):
-            return cand
-        raise FileNotFoundError(f"{cand} lacks required file(s): {must_have}")
+    _OUTPUT_CACHE[swan_year] = run_dir        # memoise
+    return run_dir
 
-    # 2/3/4 ─ explicit tag
-    run_tag = run_tag or os.getenv("RUN_TAG") or os.getenv("RUN_DATE")
-    if run_tag:
-        cand = event_dir / run_tag.replace("--", "-")
-        if cand.is_dir() and _satisfies(cand):
-            return cand
-        raise FileNotFoundError(f"{cand} missing or incomplete for {sy}")
 
-    # 5 ─ newest folder that already contains *must_have*
-    runs = sorted([p for p in event_dir.iterdir() if p.is_dir()])
-    for folder in reversed(runs):
-        if _satisfies(folder):
-            return folder
+# ═════════════════════════ 3 · SMALL HELPERS ════════════════════
+def ensure_three_letter_tickers(df, id_col: str = "Symbol"):
+    """
+    Return *df* keeping **only** rows whose ticker is exactly three
+    capital letters (discard secondary listings like ``BHP.AX``).
+    """
+    import pandas as pd
 
-    # 6 ─ newest dated folder
-    dated = [p for p in runs if _date_rx.match(p.name)]
-    if dated:
-        return sorted(dated)[-1]
+    if id_col not in df.columns:
+        raise KeyError(f"{id_col} column missing in DataFrame")
 
-    raise FileNotFoundError(
-        f"No run folder in {event_dir} satisfies requirement(s): {must_have}"
-    )
+    mask = df[id_col].astype(str).str.fullmatch(r"[A-Z]{3}")
+    return df.loc[mask].copy()

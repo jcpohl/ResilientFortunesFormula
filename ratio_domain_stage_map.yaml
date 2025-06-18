@@ -1,181 +1,351 @@
-# ──────────────────────────────────────────────────────────────
-#  Ratio  →  Resilience-bucket mapping
-#  (single bucket → scalar, multi-bucket → YAML list)
-# ──────────────────────────────────────────────────────────────
+# ratio_domain_stage_map.yaml
+# single-bucket  → scalar
+# multi-bucket   → list
 
-# ------------------------------------------------------------------------------
-# 1 ░░  DOMAIN-STAGE MAP  ░░ 
-# ------------------------------------------------------------------------------
-
-{
-
+###############################################################################
 # ░░░░░░░░░░░░░░░  PHYSICAL · PREPARE  ░░░░░░░░░░░░░░░
-"Cash_to_Total_Assets":"Phys-Prepare","Cash_to_Total_Assets_Alt":"Phys-Prepare",
-"Current_Ratio":"Phys-Prepare","Quick_Ratio":"Phys-Prepare",
-"Cash_Ratio":"Phys-Prepare","Operating_Cash_Flow_Ratio":"Phys-Prepare",
-"NetWorkingCapital_to_Assets":"Phys-Prepare","Cash_Conversion_Cycle":"Phys-Prepare",
-"Operating_CF_to_Debt":"Phys-Prepare","NetDebt_to_OCF":"Phys-Prepare",
-"DaysPayablesOutstanding":"Phys-Prepare","WorkingCapital_to_Sales":"Phys-Prepare",
-"CashEquivalents_to_CurrentLiab":"Phys-Prepare","AccountsReceivable_Turnover":"Phys-Prepare",
-"Inventory_Turnover":"Phys-Prepare","Net_Operating_WC_to_Assets":"Phys-Prepare",
-"CashFlow_to_Debt":"Phys-Prepare","CashFlow_to_Assets":"Phys-Prepare","FCF_to_Assets":"Phys-Prepare",
-"DaysSalesOutstanding":"Phys-Prepare","DaysInventoryOutstanding":"Phys-Prepare",
-"OperatingCycle":"Phys-Prepare","BeginningCash_to_Sales":"Phys-Prepare",
-"RetainedEarnings_to_Assets":"Phys-Prepare","Deposits_to_Assets":"Phys-Prepare",
-"Cash_Burn_Duration":"Phys-Prepare","WorkingCapital_Days_Trend":"Phys-Prepare",
-"Cash_Return_on_Assets":"Phys-Prepare","CashConversion_Ratio_3yrAvg":"Phys-Prepare",
-"FCF_Margin_3yrAvg":"Phys-Prepare","FCF_Yield_on_Assets":"Phys-Prepare",
-"Operating_Efficiency_Ratio":"Phys-Prepare","WorkingCapital_Turnover":"Phys-Prepare",
-"Liquidity_Runway_Days":"Phys-Prepare", 
-# dual-tag ratios
-"CashFlow_Coverage_of_Interest":["Phys-Prepare","Soc-Prepare"],
-"OCF_to_NetIncome":["Phys-Prepare","Info-Prepare"],
+###############################################################################
+Cash_to_Total_Assets:            Phys-Prepare
+Cash_to_Total_Assets_Alt:        Phys-Prepare
+Current_Ratio:                   Phys-Prepare
+Quick_Ratio:                     Phys-Prepare
+Cash_Ratio:                      Phys-Prepare
+Operating_Cash_Flow_Ratio:       Phys-Prepare
+NetWorkingCapital_to_Assets:     Phys-Prepare
+Cash_Conversion_Cycle:           Phys-Prepare
+Operating_CF_to_Debt:            Phys-Prepare
+NetDebt_to_OCF:                  Phys-Prepare
+DaysPayablesOutstanding:         Phys-Prepare
+WorkingCapital_to_Sales:         Phys-Prepare
+CashEquivalents_to_CurrentLiab:  Phys-Prepare
+AccountsReceivable_Turnover:     Phys-Prepare
+Inventory_Turnover:              Phys-Prepare
+Net_Operating_WC_to_Assets:      Phys-Prepare
+CashFlow_to_Debt:                Phys-Prepare
+CashFlow_to_Assets:              Phys-Prepare
+FCF_to_Assets:                   Phys-Prepare
+DaysSalesOutstanding:            Phys-Prepare
+DaysInventoryOutstanding:        Phys-Prepare
+OperatingCycle:                  Phys-Prepare
+BeginningCash_to_Sales:          Phys-Prepare
+RetainedEarnings_to_Assets:      Phys-Prepare
+Deposits_to_Assets:              Phys-Prepare
+Cash_Burn_Duration:              Phys-Prepare
+WorkingCapital_Days_Trend:       Phys-Prepare
+Cash_Return_on_Assets:           Phys-Prepare
+CashConversion_Ratio_3yrAvg:     Phys-Prepare
+FCF_Margin_3yrAvg:               Phys-Prepare
+FCF_Yield_on_Assets:             Phys-Prepare
+Operating_Efficiency_Ratio:      Phys-Prepare
+WorkingCapital_Turnover:         Phys-Prepare
+Liquidity_Runway_Days:           Phys-Prepare
 
+CashFlow_Coverage_of_Interest:
+  - Phys-Prepare
+  - Soc-Prepare
+OCF_to_NetIncome:
+  - Phys-Prepare
+  - Info-Prepare
+
+###############################################################################
 # ░░░░░░░░░░░░░░░  INFORMATION · PREPARE  ░░░░░░░░░░░░░░░
-"Accrual_Ratio":"Info-Prepare", "Cash_Earnings_Ratio":"Info-Prepare","Net_Operating_Accruals":"Info-Prepare",
-"Dechow_Dichev_AQ":"Info-Prepare","Percent_Accruals":"Info-Prepare",
-"Revenue_Quality":"Info-Prepare","Revenue_Quality_Delta_AR":"Info-Prepare",
-"WC_Accrual_Ratio":"Info-Prepare","DSO_Trend_3yr":"Info-Prepare",
-"Inventory_Inflation_3yr":"Info-Prepare","ROA_3yrAvg":"Info-Prepare",
-"ROE_3yrAvg":"Info-Prepare","GrossMargin_3yrAvg":"Info-Prepare",
-"EBITDA_Margin_3yrAvg":"Info-Prepare","OCF_Margin_3yrAvg":"Info-Prepare",
-"Accruals_to_Sales":"Info-Prepare",
+###############################################################################
+Accrual_Ratio:                   Info-Prepare
+Cash_Earnings_Ratio:             Info-Prepare
+Net_Operating_Accruals:          Info-Prepare
+Dechow_Dichev_AQ:                Info-Prepare
+Percent_Accruals:                Info-Prepare
+Revenue_Quality:                 Info-Prepare
+Revenue_Quality_Delta_AR:        Info-Prepare
+WC_Accrual_Ratio:                Info-Prepare
+DSO_Trend_3yr:                   Info-Prepare
+Inventory_Inflation_3yr:         Info-Prepare
+ROA_3yrAvg:                      Info-Prepare
+ROE_3yrAvg:                      Info-Prepare
+GrossMargin_3yrAvg:              Info-Prepare
+EBITDA_Margin_3yrAvg:            Info-Prepare
+OCF_Margin_3yrAvg:               Info-Prepare
+Accruals_to_Sales:               Info-Prepare
 
+###############################################################################
 # ░░░░░░░░░░░░░░░  COGNITIVE · PREPARE  ░░░░░░░░░░░░░░░
-"R_D_Growth_Rate":"Cog-Prepare","R_D_to_Opex":"Cog-Prepare",
-"RnD_Plus_CapEx_Intensity":"Cog-Prepare","R_D_3yr_CAGR":"Cog-Prepare",
-"Innovation_Ratio":"Cog-Prepare","R_D_Growth":"Cog-Prepare",
+###############################################################################
+R_D_Growth_Rate:            Cog-Prepare
+R_D_to_Opex:                Cog-Prepare
+RnD_Plus_CapEx_Intensity:   Cog-Prepare
+R_D_3yr_CAGR:               Cog-Prepare
+Innovation_Ratio:           Cog-Prepare
+R_D_Growth:                 Cog-Prepare
 
+###############################################################################
 # ░░░░░░░░░░░░░░░  SOCIAL · PREPARE  ░░░░░░░░░░░░░░░
-"Interest_Coverage_Ratio":"Soc-Prepare","Cash_Interest_Coverage_Ratio":"Soc-Prepare",
-"EBITDA_Interest_Coverage":"Soc-Prepare","DSCR":"Soc-Prepare", "DSCR_Alt":"Soc-Prepare",
-"Debt_to_Assets":"Soc-Prepare","EquityRatio":"Soc-Prepare",
-"LongTerm_Debt_to_Equity":"Soc-Prepare","Net_Debt_to_Equity":"Soc-Prepare",
-"Financial_Leverage":"Soc-Prepare","Times_Interest_Earned":"Soc-Prepare",
-"Debt_Maturity_Split":"Soc-Prepare","InterestCoverage_Cushion":"Soc-Prepare", "Net_Leverage_Trend_3yr":"Soc-Prepare",
-"Debt_to_Capital":"Soc-Prepare", "Short_Term_Debt_Ratio":"Soc-Prepare", "Interest_Burden_Ratio":"Soc-Prepare",
+###############################################################################
+Interest_Coverage_Ratio:        Soc-Prepare
+Cash_Interest_Coverage_Ratio:   Soc-Prepare
+EBITDA_Interest_Coverage:       Soc-Prepare
+DSCR:                           Soc-Prepare
+DSCR_Alt:                       Soc-Prepare
+Debt_to_Assets:                 Soc-Prepare
+EquityRatio:                    Soc-Prepare
+LongTerm_Debt_to_Equity:        Soc-Prepare
+Net_Debt_to_Equity:             Soc-Prepare
+Financial_Leverage:             Soc-Prepare
+Times_Interest_Earned:          Soc-Prepare
+Debt_Maturity_Split:            Soc-Prepare
+InterestCoverage_Cushion:       Soc-Prepare
+Net_Leverage_Trend_3yr:         Soc-Prepare
+Debt_to_Capital:                Soc-Prepare
+Short_Term_Debt_Ratio:          Soc-Prepare
+Interest_Burden_Ratio:          Soc-Prepare
 
+###############################################################################
 # ░░░░░░░░░░░░░░░  PHYSICAL · ABSORB  ░░░░░░░░░░░░░░░
-"Asset_Turnover_Ratio":"Phys-Absorb","Gross_Profit_Margin":"Phys-Absorb",
-"ROA":"Phys-Absorb","Operating_Margin":"Phys-Absorb","EBITDA_Margin":"Phys-Absorb",
-"Net_Income_Margin":"Phys-Absorb","OperatingIncome_Margin":"Phys-Absorb",
-"Cost_of_Revenue_Ratio":"Phys-Absorb","Operating_Expense_Ratio":"Phys-Absorb",
-"SG_A_to_Revenue":"Phys-Absorb","EBT_Margin":"Phys-Absorb","ROCE":"Phys-Absorb",
-"GrossMargin_Stability":"Phys-Absorb","Fixed_Asset_Turnover":"Phys-Absorb",
-"Inventory_to_Assets":"Phys-Absorb","Receivables_to_Assets":"Phys-Absorb",
-"Payables_to_Assets":"Phys-Absorb","Operating_Return_on_Opex":"Phys-Absorb",
-"CashFlow_Margin":"Phys-Absorb","CashConversionEfficiency":"Phys-Absorb",
-"Operating_Leverage":"Phys-Absorb","InvestedCapital_Turnover":"Phys-Absorb",
-"FCF_Margin":"Phys-Absorb", "Asset_Age_Ratio":"Phys-Absorb",
+###############################################################################
+Asset_Turnover_Ratio:       Phys-Absorb
+Gross_Profit_Margin:        Phys-Absorb
+ROA:                        Phys-Absorb
+Operating_Margin:           Phys-Absorb
+EBITDA_Margin:              Phys-Absorb
+Net_Income_Margin:          Phys-Absorb
+OperatingIncome_Margin:     Phys-Absorb
+Cost_of_Revenue_Ratio:      Phys-Absorb
+Operating_Expense_Ratio:    Phys-Absorb
+SG_A_to_Revenue:            Phys-Absorb
+EBT_Margin:                 Phys-Absorb
+ROCE:                       Phys-Absorb
+GrossMargin_Stability:      Phys-Absorb
+Fixed_Asset_Turnover:       Phys-Absorb
+Inventory_to_Assets:        Phys-Absorb
+Receivables_to_Assets:      Phys-Absorb
+Payables_to_Assets:         Phys-Absorb
+Operating_Return_on_Opex:   Phys-Absorb
+CashFlow_Margin:            Phys-Absorb
+CashConversionEfficiency:   Phys-Absorb
+Operating_Leverage:         Phys-Absorb
+InvestedCapital_Turnover:   Phys-Absorb
+FCF_Margin:                 Phys-Absorb
+Asset_Age_Ratio:            Phys-Absorb
 
+###############################################################################
 # ░░░░░░░░░░░░░░░  INFORMATION · ABSORB  ░░░░░░░░░░░░░░░
-"Earnings_Volatility":"Info-Absorb","EBITDA_Volatility":"Info-Absorb",
-"Earnings_Volatility_AbsMean":"Info-Absorb","EBITDA_CV":"Info-Absorb",
-"NetIncome_StDev_3yr":"Info-Absorb","EBITDA_StDev_3yr":"Info-Absorb",
-"Revenue_StDev_3yr":"Info-Absorb","OCF_StDev_3yr":"Info-Absorb",
-"ROA_StDev_5yr":"Info-Absorb","EBITDA_Volatility_5yr":"Info-Absorb",
-"Earnings_Volatility_5yr":"Info-Absorb","OperatingCF_Volatility_5yr":"Info-Absorb",
-"Sales_Volatility_5yr":"Info-Absorb","FCF_Volatility_3yr":"Info-Absorb",
-"GrossMargin_Volatility_5yr":"Info-Absorb", "GrossMargin_Volatility_3yr":"Info-Absorb", 
+###############################################################################
+Earnings_Volatility:         Info-Absorb
+EBITDA_Volatility:           Info-Absorb
+Earnings_Volatility_AbsMean: Info-Absorb
+EBITDA_CV:                   Info-Absorb
+NetIncome_StDev_3yr:         Info-Absorb
+EBITDA_StDev_3yr:            Info-Absorb
+Revenue_StDev_3yr:           Info-Absorb
+OCF_StDev_3yr:               Info-Absorb
+ROA_StDev_5yr:               Info-Absorb
+EBITDA_Volatility_5yr:       Info-Absorb
+Earnings_Volatility_5yr:     Info-Absorb
+OperatingCF_Volatility_5yr:  Info-Absorb
+Sales_Volatility_5yr:        Info-Absorb
+FCF_Volatility_3yr:          Info-Absorb
+GrossMargin_Volatility_5yr:  Info-Absorb
+GrossMargin_Volatility_3yr:  Info-Absorb
 
+###############################################################################
 # ░░░░░░░░░░░░░░░  COGNITIVE · ABSORB  ░░░░░░░░░░░░░░░
-"Gross_Profitability_Alt":"Cog-Absorb","GrossProfit_to_Equity":"Cog-Absorb",
-"Price_Premium_Index":"Cog-Absorb", "Price_Cost_PassThrough":"Cog-Absorb", "R&D_Payoff_Ratio":"Cog-Absorb",
+###############################################################################
+Gross_Profitability_Alt: Cog-Absorb
+GrossProfit_to_Equity:   Cog-Absorb
+Price_Premium_Index:     Cog-Absorb
+Price_Cost_PassThrough:  Cog-Absorb
+R&D_Payoff_Ratio:        Cog-Absorb
 
+###############################################################################
 # ░░░░░░░░░░░░░░░  SOCIAL · ABSORB  ░░░░░░░░░░░░░░░
-"LT_Debt_to_EBITDA":"Soc-Absorb","InterestBearingDebt_to_EBITDA":"Soc-Absorb",
-"Net_Debt_to_EBITDA":"Soc-Absorb","LT_Debt_to_TotalDebt":"Soc-Absorb",
-"ETR_Volatility_3yr":"Soc-Absorb","InterestExpense_to_Sales":"Soc-Absorb",
-"InterestCoverage_Volatility_5yr":"Soc-Absorb","InterestCoverage_Volatility_3yr":"Soc-Absorb", "Implied_Credit_Spread":"Soc-Absorb",
-"OpLev_Risk":"Soc-Absorb", "Interest_Burden_Absorb":"Soc-Absorb", "Net_Debt_Increase_Rate":"Soc-Absorb",
-"Interest_to_OCF":"Soc-Absorb", "Dividend_Suspension_Flag":"Soc-Absorb",
-"Interest_to_EBITDA":"Soc-Absorb",
-"Interest_to_EBIT":"Soc-Absorb",
-"Net_Debt_to_EBITDA_Trend_3yr":"Soc-Absorb",
-"Net_Debt_to_EBITDA_Trend_5yr":"Soc-Absorb",
+###############################################################################
+LT_Debt_to_EBITDA:               Soc-Absorb
+InterestBearingDebt_to_EBITDA:   Soc-Absorb
+Net_Debt_to_EBITDA:              Soc-Absorb
+LT_Debt_to_TotalDebt:            Soc-Absorb
+ETR_Volatility_3yr:              Soc-Absorb
+InterestExpense_to_Sales:        Soc-Absorb
+InterestCoverage_Volatility_5yr: Soc-Absorb
+InterestCoverage_Volatility_3yr: Soc-Absorb
+Implied_Credit_Spread:           Soc-Absorb
+OpLev_Risk:                      Soc-Absorb
+Interest_Burden_Absorb:          Soc-Absorb
+Net_Debt_Increase_Rate:          Soc-Absorb
+Interest_to_OCF:                 Soc-Absorb
+Dividend_Suspension_Flag:        Soc-Absorb
+Interest_to_EBITDA:              Soc-Absorb
+Interest_to_EBIT:                Soc-Absorb
+Net_Debt_to_EBITDA_Trend_3yr:    Soc-Absorb
+Net_Debt_to_EBITDA_Trend_5yr:    Soc-Absorb
 
+###############################################################################
 # ░░░░░░░░░░░░░░░  PHYSICAL · RECOVER  ░░░░░░░░░░░░░░░
-"ROE":"Phys-Recover","Debt_to_Equity":"Phys-Recover","Debt_to_Equity_Liab":"Phys-Recover",
-"EPS":"Phys-Recover","Cash_Dividends_to_Net_Income":"Phys-Recover",
-"Return_on_Tangible_Equity":"Phys-Recover","Total_Payout_Ratio":"Phys-Recover",
-"NetDebt_PayDown_Rate":"Phys-Recover","Incremental_ROIC":"Phys-Recover",
-"ROIC_Slope_5yr":"Phys-Recover","ROIC_Slope_3yr":"Phys-Recover",
-"ROIC_Trend_5yr_Slope":"Phys-Recover","ROIC_Trend_3yr_Slope":"Phys-Recover",
-"ROIC_3yr_Avg":"Phys-Recover","ROIC_5yr_Median":"Phys-Recover",
-"ROIC_3yr_Median":"Phys-Recover","EBITDA_DropThrough":"Phys-Recover",
-"OperatingLeverage_Slope":"Phys-Recover","Revenue_Recovery_Rate":"Phys-Recover",
-"Retention_to_Growth":"Phys-Recover", "CapEx_vs_Revenue_Rebound":"Phys-Recover",
+###############################################################################
+ROE:                     Phys-Recover
+Debt_to_Equity:          Phys-Recover
+Debt_to_Equity_Liab:     Phys-Recover
+EPS:                     Phys-Recover
+Cash_Dividends_to_Net_Income: Phys-Recover
+Return_on_Tangible_Equity: Phys-Recover
+Total_Payout_Ratio:      Phys-Recover
+NetDebt_PayDown_Rate:    Phys-Recover
+Incremental_ROIC:        Phys-Recover
+ROIC_Slope_5yr:          Phys-Recover
+ROIC_Slope_3yr:          Phys-Recover
+ROIC_Trend_5yr_Slope:    Phys-Recover
+ROIC_Trend_3yr_Slope:    Phys-Recover
+ROIC_3yr_Avg:            Phys-Recover
+ROIC_5yr_Median:         Phys-Recover
+ROIC_3yr_Median:         Phys-Recover
+EBITDA_DropThrough:      Phys-Recover
+OperatingLeverage_Slope: Phys-Recover
+Revenue_Recovery_Rate:   Phys-Recover
+Retention_to_Growth:     Phys-Recover
+CapEx_vs_Revenue_Rebound: Phys-Recover
 
+###############################################################################
 # ░░░░░░░░░░░░░░░  INFORMATION · RECOVER  ░░░░░░░░░░░░░░░
-"Advertising_to_Sales":"Info-Recover","Marketing_Efficiency_Ratio":"Info-Recover",
-"Combined_SellingExpense_to_Sales":"Info-Recover","SGA_to_Sales":"Info-Recover",
-"Advertising_to_Sales_3yrCAGR":"Info-Recover","OperatingMargin_Delta":"Info-Recover",
-"OperatingMargin_Slope_5yr":"Info-Recover","OperatingMargin_Slope_3yr":"Info-Recover",
-"EBITDA_Margin_StdDev_5yr":"Info-Recover","EBITDA_Margin_StdDev_3yr":"Info-Recover",
-"EPS_Volatility_5yr":"Info-Recover","EPS_Volatility_3yr":"Info-Recover",
-"EPS_Growth":"Info-Recover","EPS_Stability":"Info-Recover",
-"ROE_StdDev_5yr":"Info-Recover","ROE_StdDev_3yr":"Info-Recover", "Advertising_ROI":"Info-Recover",
+###############################################################################
+Advertising_to_Sales:            Info-Recover
+Marketing_Efficiency_Ratio:      Info-Recover
+Combined_SellingExpense_to_Sales: Info-Recover
+SGA_to_Sales:                    Info-Recover
+Advertising_to_Sales_3yrCAGR:    Info-Recover
+OperatingMargin_Delta:           Info-Recover
+OperatingMargin_Slope_5yr:       Info-Recover
+OperatingMargin_Slope_3yr:       Info-Recover
+EBITDA_Margin_StdDev_5yr:        Info-Recover
+EBITDA_Margin_StdDev_3yr:        Info-Recover
+EPS_Volatility_5yr:              Info-Recover
+EPS_Volatility_3yr:              Info-Recover
+EPS_Growth:                      Info-Recover
+EPS_Stability:                   Info-Recover
+ROE_StdDev_5yr:                  Info-Recover
+ROE_StdDev_3yr:                  Info-Recover
+Advertising_ROI:                 Info-Recover
 
+###############################################################################
 # ░░░░░░░░░░░░░░░  COGNITIVE · RECOVER  ░░░░░░░░░░░░░░░
-"NOPAT_Alt":"Cog-Recover","NOPAT_to_Avg_InvestedCapital":"Cog-Recover",
-"ROIC":"Cog-Recover", "ROIC_Spread_vs_Sector":"Cog-Recover",
-"CapEx_Efficiency":"Cog-Recover", "EVA_Margin":"Cog-Recover",
-"ROIC_3yr":"Cog-Recover", "ROIC_5yr":"Cog-Recover",
+###############################################################################
+NOPAT_Alt:                  Cog-Recover
+NOPAT_to_Avg_InvestedCapital: Cog-Recover
+ROIC:                       Cog-Recover
+ROIC_Spread_vs_Sector:      Cog-Recover
+CapEx_Efficiency:           Cog-Recover
+EVA_Margin:                 Cog-Recover
+ROIC_3yr:                   Cog-Recover
+ROIC_5yr:                   Cog-Recover
 
-
+###############################################################################
 # ░░░░░░░░░░░░░░░  SOCIAL · RECOVER  ░░░░░░░░░░░░░░░
-"Equity_Issuance_Rate":"Soc-Recover","Share_Issuance_Rate":"Soc-Recover",
-"Share_Dilution_3yrChg":"Soc-Recover", "Debt_Issuance_Rate":"Soc-Recover", "Equity_to_CapEx_Financing":"Soc-Recover",
-"Debt_Service_Coverage_Recover":"Soc-Recover",
-"Dividend_Reinstatement_Flag":"Soc-Recover",
+###############################################################################
+Equity_Issuance_Rate:        Soc-Recover
+Share_Issuance_Rate:         Soc-Recover
+Share_Dilution_3yrChg:       Soc-Recover
+Debt_Issuance_Rate:          Soc-Recover
+Equity_to_CapEx_Financing:   Soc-Recover
+Debt_Service_Coverage_Recover: Soc-Recover
+Dividend_Reinstatement_Flag: Soc-Recover
 
-
+###############################################################################
 # ░░░░░░░░░░░░░░░  PHYSICAL · ADAPT  ░░░░░░░░░░░░░░░
-"CapEx_to_Sales":"Phys-Adapt","CapEx_to_Depreciation":"Phys-Adapt",
-"CapEx_plus_RnD_to_Sales":"Phys-Adapt","CapEx_GrowthRate":"Phys-Adapt",
-"CapEx_Dep_Growth":"Phys-Adapt","Maintenance_CapEx_Ratio":"Phys-Adapt",
-"FreeCashFlow_to_InvestedCapital":"Phys-Adapt","CapitalisedSoftware_to_Assets":"Phys-Adapt",
-"Reinvestment_Rate":"Phys-Adapt",
-"CapEx_Variability_5yr":"Phys-Adapt","CapEx_Variability_3yr":"Phys-Adapt",
-"OCF_to_CapEx":"Phys-Adapt","OCF_FreeCash_Cushion":"Phys-Adapt", "Net_Investing_Flag":"Phys-Adapt",
+###############################################################################
+CapEx_to_Sales:                   Phys-Adapt
+CapEx_to_Depreciation:            Phys-Adapt
+CapEx_plus_RnD_to_Sales:          Phys-Adapt
+CapEx_GrowthRate:                 Phys-Adapt
+CapEx_Dep_Growth:                 Phys-Adapt
+Maintenance_CapEx_Ratio:          Phys-Adapt
+FreeCashFlow_to_InvestedCapital:  Phys-Adapt
+CapitalisedSoftware_to_Assets:    Phys-Adapt
+Reinvestment_Rate:                Phys-Adapt
+CapEx_Variability_5yr:            Phys-Adapt
+CapEx_Variability_3yr:            Phys-Adapt
+OCF_to_CapEx:                     Phys-Adapt
+OCF_FreeCash_Cushion:             Phys-Adapt
+Net_Investing_Flag:               Phys-Adapt
 
+###############################################################################
 # ░░░░░░░░░░░░░░░  INFORMATION · ADAPT  ░░░░░░░░░░░░░░░
-"R&D_Intensity":"Info-Adapt","Retention_Ratio":"Info-Adapt",
-"Gross_Profitability":"Info-Adapt","NOPAT_Margin":"Info-Adapt",
-"Sustainable_Growth_Rate":"Info-Adapt","Revenue_CAGR_5yr":"Info-Adapt",
-"Revenue_CAGR_3yr":"Info-Adapt","Revenue_Growth":"Info-Adapt",
-"NetIncome_Growth":"Info-Adapt","EBITDA_Growth":"Info-Adapt",
-"Assets_Growth":"Info-Adapt","Equity_Growth":"Info-Adapt",
-"OCF_Growth":"Info-Adapt","FCF_Growth":"Info-Adapt",
-"FCF_Growth_3yrCAGR":"Info-Adapt","OCF_CAGR_5yr":"Info-Adapt",
-"OCF_CAGR_3yr":"Info-Adapt","Dividend_Growth":"Info-Adapt",
-"Dividend_Growth_Alt":"Info-Adapt","CapEx_Growth":"Info-Adapt",
-"GrossProfit_Growth":"Info-Adapt","OCF_Volatility_3yr":"Info-Adapt",
-"CashFlow_Skewness":"Info-Adapt","FCF_Volatility_5yr":"Info-Adapt",
-"OCF_Margin":"Info-Adapt", "RnD_Capitalised_Share":"Info-Adapt",
+###############################################################################
+R&D_Intensity:            Info-Adapt
+Retention_Ratio:          Info-Adapt
+Gross_Profitability:      Info-Adapt
+NOPAT_Margin:             Info-Adapt
+Sustainable_Growth_Rate:  Info-Adapt
+Revenue_CAGR_5yr:         Info-Adapt
+Revenue_CAGR_3yr:         Info-Adapt
+Revenue_Growth:           Info-Adapt
+NetIncome_Growth:         Info-Adapt
+EBITDA_Growth:            Info-Adapt
+Assets_Growth:            Info-Adapt
+Equity_Growth:            Info-Adapt
+OCF_Growth:               Info-Adapt
+FCF_Growth:               Info-Adapt
+FCF_Growth_3yrCAGR:       Info-Adapt
+OCF_CAGR_5yr:             Info-Adapt
+OCF_CAGR_3yr:             Info-Adapt
+Dividend_Growth:          Info-Adapt
+Dividend_Growth_Alt:      Info-Adapt
+CapEx_Growth:             Info-Adapt
+GrossProfit_Growth:       Info-Adapt
+OCF_Volatility_3yr:       Info-Adapt
+CashFlow_Skewness:        Info-Adapt
+FCF_Volatility_5yr:       Info-Adapt
+OCF_Margin:               Info-Adapt
+RnD_Capitalised_Share:    Info-Adapt
 
+###############################################################################
 # ░░░░░░░░░░░░░░░  COGNITIVE · ADAPT  ░░░░░░░░░░░░░░░
-"Market_Share_Ratio":"Cog-Adapt","Relative_Revenue_Growth_vs_Sector":"Cog-Adapt",
-"Market_Share_Revenue_Change":"Cog-Adapt","Market_Share_EBITDA_Change":"Cog-Adapt",
-"Relative_EBITDA_Growth_vs_Sector":"Cog-Adapt",
-"Relative_OperatingIncome_Growth_vs_Sector":"Cog-Adapt",
-"Market_Share_OperatingIncome_Change":"Cog-Adapt","Rev_CAGR_vs_Sector":"Cog-Adapt",
-"Relative_Revenue_Growth_Sector":"Cog-Adapt","Relative_EBITDA_Growth_Sector":"Cog-Adapt",
-"Market_Share_of_Revenue":"Cog-Adapt","Revenue_Sector_Share_Growth":"Cog-Adapt",
-"EBITDA_Sector_Share":"Cog-Adapt","Relative_OperatingIncome_Growth_Sector":"Cog-Adapt",
-"Relative_NetIncome_Growth_Sector":"Cog-Adapt","NetIncome_Sector_Share":"Cog-Adapt",
-"Sales_to_TotalAssets":"Cog-Adapt","Sales_to_Marketing_Leverage":"Cog-Adapt", "GrossProfit_to_Marketing_Leverage":"Cog-Adapt",
-"GrossMargin_Slope_5yr":"Cog-Adapt","GrossMargin_Slope_3yr":"Cog-Adapt",
-"Price_Realisation_Index":"Cog-Adapt",
+###############################################################################
+Market_Share_Ratio:                     Cog-Adapt
+Relative_Revenue_Growth_vs_Sector:      Cog-Adapt
+Market_Share_Revenue_Change:            Cog-Adapt
+Market_Share_EBITDA_Change:             Cog-Adapt
+Relative_EBITDA_Growth_vs_Sector:       Cog-Adapt
+Relative_OperatingIncome_Growth_vs_Sector: Cog-Adapt
+Market_Share_OperatingIncome_Change:    Cog-Adapt
+Rev_CAGR_vs_Sector:                     Cog-Adapt
+Relative_Revenue_Growth_Sector:         Cog-Adapt
+Relative_EBITDA_Growth_Sector:          Cog-Adapt
+Market_Share_of_Revenue:                Cog-Adapt
+Revenue_Sector_Share_Growth:            Cog-Adapt
+EBITDA_Sector_Share:                    Cog-Adapt
+Relative_OperatingIncome_Growth_Sector: Cog-Adapt
+Relative_NetIncome_Growth_Sector:       Cog-Adapt
+NetIncome_Sector_Share:                 Cog-Adapt
+Sales_to_TotalAssets:                   Cog-Adapt
+Sales_to_Marketing_Leverage:            Cog-Adapt
+GrossProfit_to_Marketing_Leverage:      Cog-Adapt
+GrossMargin_Slope_5yr:                  Cog-Adapt
+GrossMargin_Slope_3yr:                  Cog-Adapt
+Price_Realisation_Index:                Cog-Adapt
+Marketing_Intensity:                    Cog-Adapt
 
+###############################################################################
 # ░░░░░░░░░░░░░░░  SOCIAL · ADAPT  ░░░░░░░░░░░░░░░
-"DPS_to_EPS":"Soc-Adapt","Dividend_Payout_Ratio":"Soc-Adapt",
-"FCF_Payout_Ratio":"Soc-Adapt","Dividend_Stability_Index":"Soc-Adapt",
-"Dividend_Yield_on_FCF":"Soc-Adapt","Dividend_Coverage":"Soc-Adapt",
-"Dividend_Coverage_FCF":"Soc-Adapt","Dividend_Payout_CV":"Soc-Adapt",
-"Share_Count_Reduction_YoY":"Soc-Adapt","Net_Buyback_to_FCF":"Soc-Adapt", "Dividend_Payout_Flexibility":"Soc-Adapt",
-"Dividend_Cut_Flag":"Soc-Adapt", "Buyback_Coverage_OCF":"Soc-Adapt",
-"Net_Buyback_to_FCF":"Soc-Adapt",
-"Dividend_Payout_Flexibility":"Soc-Adapt",
-"Buyback_Coverage_OCF":"Soc-Adapt",
-}
+###############################################################################
+DPS_to_EPS:                   Soc-Adapt
+Dividend_Payout_Ratio:        Soc-Adapt
+FCF_Payout_Ratio:             Soc-Adapt
+Dividend_Stability_Index:     Soc-Adapt
+Dividend_Yield_on_FCF:        Soc-Adapt
+Dividend_Coverage:            Soc-Adapt
+Dividend_Coverage_FCF:        Soc-Adapt
+Dividend_Payout_CV:           Soc-Adapt
+Share_Count_Reduction_YoY:    Soc-Adapt
+Net_Buyback_to_FCF:           Soc-Adapt      # (single entry – duplicate removed)
+Dividend_Payout_Flexibility:  Soc-Adapt
+Dividend_Cut_Flag:            Soc-Adapt
+Buyback_Coverage_OCF:         Soc-Adapt
+
+
+###############################################################################
+# New log / sqrt profitability variants
+###############################################################################
+Log_ROE:        Info-Recover     # same bucket where ROE sits
+Sqrt_ROE:       Info-Recover
+Log_ROA:        Phys-Absorb      # same bucket where ROA sits
+Sqrt_ROA:       Phys-Absorb
+Log_ROIC:       Cog-Recover      # same bucket where ROIC sits
+Sqrt_ROIC:      Cog-Recover
+

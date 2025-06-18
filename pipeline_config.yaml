@@ -1,27 +1,30 @@
 # ──────────────────────────────────────────────────────────────
-# GLOBAL DEFAULTS
-#   Every stage will read these; nothing else to set by hand.
+# GLOBAL DEFAULTS – used by every stage
 # ──────────────────────────────────────────────────────────────
 defaults:
   INPUT_CSV:   "C:/Users/Jason Pohl/OneDrive - Bond University/PhD/rff/NEW_DATA.csv"
   OUTPUT_ROOT: "C:/Users/Jason Pohl/OneDrive - Bond University/PhD/rff/outputs_rff"
-  # Uncomment and set STAGE1_CFG if required:
-  # STAGE1_CFG: "C:/Users/Jason Pohl/OneDrive - Bond University/PhD/rff/configs/stage1_config.yaml"
+
+  # ★── new pipeline-wide flags ───────────────────────────────
+  include_transforms: true       # auto-create Log_/Sqrt_ twins for skewed ratios
+  SAVE_FORMAT:       "csv"       # "csv" or "parquet"
+  PURGE_OLD:         false       # delete older run folders after a successful run
+
+  # bucket-winner selection
+  SELECT_STAT:       "AvgRho"    # "AvgRho" | "AvgAUROC" | "AvgPR2" | "Composite"
+  CompositeWeights:              # used only if SELECT_STAT == Composite
+    rho:   0.5
+    auroc: 0.3
+    pr2:   0.2
+
+  # snapshot-logit settings
+  YEARS_BACK:        1           # snapshot spans FY-(swan-YEARS_BACK … swan-1)
+  REG_STRENGTH:      0           # >0 → ridge/ lasso penalty (0 = none)
 
 # ──────────────────────────────────────────────────────────────
-# EVENT‐SPECIFIC WINDOWS
-#   The orchestrator will loop over these keys in order.
+# EVENT-SPECIFIC WINDOWS
 # ──────────────────────────────────────────────────────────────
 events:
-  "1998":
-    WIN_START: 1993
-    WIN_END:   2002
-  "2000":
-    WIN_START: 1995
-    WIN_END:   2004
   "2008":
     WIN_START: 2003
     WIN_END:   2012
-  "2020":
-    WIN_START: 2015
-    WIN_END:   2024
